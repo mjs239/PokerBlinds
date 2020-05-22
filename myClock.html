@@ -151,29 +151,29 @@
 		</style>
 	</head>
 	<body>
-    <audio id="blindsUp">
-      <source src="goose.wav" type="audio/wav">
-      <source src="goose.ogg" type="audio/ogg">
-      
-    </audio>
+   
     
 		<div class="countdownContainer">Level: <span id="level">1</span> </br>Time: <span id="time">00:00</span> </br>Blinds: <span id="blinds">5-10</span></div>
 		
 		<script type="text/javascript">
  			var blinds = ["5-10", "10-20", "15-30", "20-40", "25-50", "30-60", "40-80", "50-100", "60-120", "75-150", "100-200", "125-250", "150-300", "200-400", "250-500", "300-600", "400-800", "500-1000", "750-1500", "1000-2000", "1250-2500", "1500-3000", "2000-4000", "2500-5000"];
-
 			var play = false;
+			const soundEffect = new Audio();
+			
+		  
+		  
 		  
 			function toggle() {
 				play = !play;
-				
 			}
 			
 			
 			
+			
+			
 		  
 		  
-			var blindsUpSound = document.getElementById("blindsUp");
+			
 
 			function startTimer(duration, displayTime, displayLevel) {
 				var timer = duration,
@@ -192,6 +192,18 @@
 					else {
 						document.getElementById("time").style.color = "green";
 					}
+					
+					if (minutes < 1 && seconds < 10) {
+						
+						if (seconds % 2 == 0) {
+							document.body.style.backgroundColor = "#121212";
+						}
+						else{
+							document.body.style.backgroundColor = "red";
+						}
+					}
+					
+					
 		  
 					minutes = minutes < 10 ? "0" + minutes : minutes;
 					seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -207,7 +219,8 @@
 						if (--timer < 0) {
 							timer = duration;
 							level += 1;
-							blindsUpSound.play();
+							soundEffect.src = 'goose.ogg';
+							soundEffect.play();
 							if (level >= blinds.length) {
 								play = false;
 							}
@@ -233,6 +246,7 @@
 			
 			
 			function setDuration() {
+				soundEffect.play();
 				var dur = document.getElementById("blindMinutes").value;
 				dur = parseInt(dur, 10);
 				durationSeconds = dur*60;
