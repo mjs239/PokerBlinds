@@ -4,7 +4,7 @@
 		<title>Poker Countdown</title>
 		<style type="text/css">
 		body {
-			background: #121212
+			background: #121212;
 		}
 		.countdownContainer{
 			position: absolute;
@@ -20,6 +20,10 @@
 			font-size: 90px;
 			display: inline-block;
 			width:1000px;
+			opacity: 0.95;
+		}
+		.prev{
+			font-size: 50px;
 		}
 		
 		.button {
@@ -151,10 +155,10 @@
 		</style>
 	</head>
 	<body>
-   
-    
-		<div class="countdownContainer">Level: <span id="level">1</span> </br>Time: <span id="time">00:00</span> </br>Blinds: <span id="blinds">5-10</span></div>
 		
+		
+		<div class="countdownContainer">Level: <span id="level">1</span> </br>Time: <span id="time">00:00</span> </br>Blinds: <span id="blinds">5-10</span></br> <span style="font-size:50px">Prev: </span><span class="prev" id="prev">0</span> &nbsp &nbsp &nbsp &nbsp <span style="font-size:50px"> Next: <span id="next">0</span></div>
+	
 		<script type="text/javascript">
  			var blinds = ["5-10", "10-20", "15-30", "20-40", "25-50", "30-60", "40-80", "50-100", "60-120", "75-150", "100-200", "125-250", "150-300", "200-400", "250-500", "300-600", "400-800", "500-1000", "750-1500", "1000-2000", "1250-2500", "1500-3000", "2000-4000", "2500-5000"];
 			var play = false;
@@ -179,6 +183,9 @@
 				var timer = duration,
 					minutes, seconds;
 				var level = 1;
+				var prevBlind = "";
+				var nextBlind = "";
+				
 				setInterval(function() {
 					minutes = parseInt(timer / 60, 10);
 					seconds = parseInt(timer % 60, 10);
@@ -204,16 +211,34 @@
 					}
 					
 					
+					
+					
 		  
 					minutes = minutes < 10 ? "0" + minutes : minutes;
 					seconds = seconds < 10 ? "0" + seconds : seconds;
 		  
 					blindAmount = blinds[level - 1];
 		  
+		  
+					//Displaying next and previous blinds
+					if (level === 1){
+						prevBlind = "0";
+					}
+					else{
+						prevBlind = blinds[level-2];
+					}
+					
+					nextBlind = blinds[level];
+		  
+		  
+		  
 					displayTime.textContent = minutes + ":" + seconds;
 					displayLevel.textContent = level;
 					displayBlinds.textContent = blindAmount;
-		  
+					displayPrev.textContent = prevBlind;
+					displayNext.textContent = nextBlind;
+					
+					
 		  
 					if (play) {
 						if (--timer < 0) {
@@ -261,6 +286,8 @@
 				displayTime = document.querySelector('#time');
 				displayLevel = document.querySelector('#level');
 				displayBlinds = document.querySelector('#blinds');
+				displayPrev = document.querySelector('#prev');
+				displayNext = document.querySelector('#next');
 				
 			  };
 			  

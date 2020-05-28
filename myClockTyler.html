@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Poker Countdown</title>
+		<style type="text/css">
+		body {
+			background: #121212;
+			background-image: url('tyler.jpg');
+			background-repeat: no-repeat;
+			background-size: cover;
+			
+		}
+		.countdownContainer{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform : translateX(-50%) translateY(-50%);
+			text-align: center;
+			background: #1F1B24;
+			border: 1px solid #999;
+			padding: 10px;
+			box-shadow: 0 0 5px 3px #1F1B24;
+			color: grey;
+			font-size: 90px;
+			display: inline-block;
+			width:1000px;
+			opacity: 0.95;
+		}
+		
+		.button {
+			position: absolute;
+			top: 80%;
+			left: 50%;
+			transform : translateX(-50%) translateY(-50%);
+			text-align: center;
+			border: none;
+			color: grey;
+			padding: 12px 18px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 12px;
+			opacity: 0.6;
+			transition: 0.3s;
+			cursor: pointer;
+			background-color: #1F1B24;
+		}
+		
+		
+		
+		/* Style the navigation menu */
+		.topnav {
+		  overflow: hidden;
+		  background-color: grey;
+		  position: relative;
+		}
+
+		/* Hide the links inside the navigation menu (except for logo/home) */
+		.topnav #myOptions {
+		  display: none;
+		  background: darkgrey;
+		}
+
+		/* Style navigation menu links */
+		.topnav a {
+		  color: white;
+		  padding: 14px 16px;
+		  text-decoration: none;
+		  font-size: 17px;
+		  display: block;
+		}
+
+		/* Style the hamburger menu */
+		.topnav a.icon {
+		  background: black;
+		  display: block;
+		  position: absolute;
+		  right: 0;
+		  top: 0;
+		  cursor: pointer;
+		}
+
+		
+
+		/* Style the active link (or home/logo) */
+		.active {
+		  background-color: #171717;
+		}
+		
+		
+		
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 30px;
+		  height: 17px;
+		}
+
+		.switch input { 
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		}
+
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: #ccc;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		.slider:before {
+		  position: absolute;
+		  content: "";
+		  height: 13px;
+		  width: 13px;
+		  left: 2px;
+		  bottom: 2px;
+		  background-color: white;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		input:checked + .slider {
+		  background-color: #2196F3;
+		}
+
+		input:focus + .slider {
+		  box-shadow: 0 0 1px #2196F3;
+		}
+
+		input:checked + .slider:before {
+		  -webkit-transform: translateX(13px);
+		  -ms-transform: translateX(13px);
+		  transform: translateX(13px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+		  border-radius: 34px;
+		}
+
+		.slider.round:before {
+		  border-radius: 50%;
+		}
+		
+		
+		
+		
+		
+		</style>
+	</head>
+	<body>
+		
+		
+		<div class="countdownContainer">Level: <span id="level">1</span> </br>Time: <span id="time">00:00</span> </br>Blinds: <span id="blinds">5-10</span></div>
+		
+		<script type="text/javascript">
+ 			var blinds = ["5-10", "10-20", "15-30", "20-40", "25-50", "30-60", "40-80", "50-100", "60-120", "75-150", "100-200", "125-250", "150-300", "200-400", "250-500", "300-600", "400-800", "500-1000", "750-1500", "1000-2000", "1250-2500", "1500-3000", "2000-4000", "2500-5000"];
+			var play = false;
+			const soundEffect = new Audio();
+			
+		  
+		  
+		  
+			function toggle() {
+				play = !play;
+			}
+			
+			
+			
+			
+			
+		  
+		  
+			
+
+			function startTimer(duration, displayTime, displayLevel) {
+				var timer = duration,
+					minutes, seconds;
+				var level = 1;
+				setInterval(function() {
+					minutes = parseInt(timer / 60, 10);
+					seconds = parseInt(timer % 60, 10);
+		  
+					if (minutes <= 1) {
+						document.getElementById("time").style.color = "red";
+					}
+					else if (minutes <= 3){
+						document.getElementById("time").style.color = "yellow";
+					}
+					else {
+						document.getElementById("time").style.color = "green";
+					}
+					
+					if (minutes < 1 && seconds < 10) {
+						
+						if (seconds % 2 == 0) {
+							document.body.style.backgroundColor = "#121212";
+						}
+						else{
+							document.body.style.backgroundColor = "red";
+						}
+					}
+					
+					
+		  
+					minutes = minutes < 10 ? "0" + minutes : minutes;
+					seconds = seconds < 10 ? "0" + seconds : seconds;
+		  
+					blindAmount = blinds[level - 1];
+		  
+					displayTime.textContent = minutes + ":" + seconds;
+					displayLevel.textContent = level;
+					displayBlinds.textContent = blindAmount;
+		  
+		  
+					if (play) {
+						if (--timer < 0) {
+							timer = duration;
+							level += 1;
+							soundEffect.src = 'goose.ogg';
+							soundEffect.play();
+							if (level >= blinds.length) {
+								play = false;
+							}
+						}
+					}
+				}, 1000);
+			}
+      
+      
+      
+      
+			/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+			function navBar() {
+			  var x = document.getElementById("myOptions");
+			  if (x.style.display === "block") {
+				x.style.display = "none";
+			  } else {
+				x.style.display = "block";
+			  }
+			}
+			
+			
+			
+			
+			function setDuration() {
+				soundEffect.play();
+				var dur = document.getElementById("blindMinutes").value;
+				dur = parseInt(dur, 10);
+				durationSeconds = dur*60;
+				document.getElementById("setDurationButton").disabled = true;
+				startTimer(durationSeconds, displayTime, displayLevel);
+			}
+			
+			
+			
+			window.onload = function() {
+				
+				displayTime = document.querySelector('#time');
+				displayLevel = document.querySelector('#level');
+				displayBlinds = document.querySelector('#blinds');
+				
+			  };
+			  
+			 
+			  
+			  
+			  
+			
+		</script>
+		
+		<button class="button" onclick="toggle()">PLAY/PAUSE</button>
+		
+		
+		
+		<!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<!-- Top Navigation Menu -->
+		<div class="topnav">
+			<a class="active">Poker Blinds</a>
+			<!-- Navigation links (hidden by default) -->
+			<div id="myOptions">
+				<b>Level Length: </b> 
+				<select id="blindMinutes" name="blindMinutes">
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="12">12</option>
+					<option value="15">15</option>
+					<option value="20">20</option>
+					<option value="1">1</option>
+				</select>
+				minutes
+				<button id="setDurationButton" class="newDuration" onclick="setDuration()">Enter</button></br>
+				<b>Enable Sounds: </b>
+				<label class="switch">
+					<input type="checkbox" checked>
+					<span class="slider round"></span>
+				</label>
+				
+			</div>
+			
+			<!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+			<a class="icon" onclick="navBar()">
+			<i class="fa fa-bars"></i>
+			</a>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+	</body>
+</html>
